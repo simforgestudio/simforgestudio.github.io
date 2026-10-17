@@ -26,6 +26,7 @@
   --c-arena: #f72585;
   --c-sine: #4cc9f0;
   --c-charts: #b8f24a;
+  --c-curios: #ffd166;
   --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
   --wrap: 1120px;
@@ -162,6 +163,7 @@ section.block .sub { color: var(--muted); max-width: 52ch; margin: 0 0 56px; fon
 .channel.arena   { --c: var(--c-arena); }
 .channel.sine    { --c: var(--c-sine); }
 .channel.charts  { --c: var(--c-charts); }
+.channel.curios  { --c: var(--c-curios); }
 
 /* ---------- process ---------- */
 .process { display: grid; gap: 40px; grid-template-columns: 1fr; align-items: start; }

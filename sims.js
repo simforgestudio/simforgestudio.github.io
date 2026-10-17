@@ -254,7 +254,7 @@
     },
   };
 
-  /* ---------- SineAndShape: Lissajous curve with a drifting phase ---------- */
+  /* ---------- Curio: Lissajous curve with a drifting phase ---------- */
   const lissajous = {
     still: 5,
     init() {},
@@ -292,7 +292,7 @@
     },
   };
 
-  /* ---------- VerySeriousCharts: a bar chart race of very important topics ---------- */
+  /* ---------- Curio: a bar chart race of very important topics ---------- */
   const TOPICS = [
     ["Socks lost in the wash", 62, 1.1, 0.0],
     ["Meetings that could be emails", 70, 0.8, 2.1],
@@ -346,7 +346,22 @@
     },
   };
 
-  const SIMS = { pendulum, arena, lissajous, charts };
+  /* ---------- CabinetOfCurios: the curiosities take turns, one every few seconds ---------- */
+  const CURIOS = [lissajous, charts], TURN = 7, FADE = 0.6;
+  const cabinet = {
+    still: 4,
+    init(st, first) { for (const c of CURIOS) c.init(st, first); },
+    step(st, dt) { const c = CURIOS[Math.floor(st.t / TURN) % CURIOS.length]; c.step && c.step(st, dt); },
+    draw(ctx, st, dt) {
+      const k = Math.floor(st.t / TURN), into = st.t - k * TURN;
+      CURIOS[k % CURIOS.length].draw(ctx, st, dt);
+      // Short dip to the background at each change, so the cut reads as a new exhibit
+      const edge = k === 0 ? TURN - into : Math.min(into, TURN - into);
+      if (edge < FADE) { ctx.fillStyle = hexA(BG, 1 - edge / FADE); ctx.fillRect(0, 0, st.w, st.h); }
+    },
+  };
+
+  const SIMS = { pendulum, arena, lissajous, charts, cabinet };
   const heroCanvas = document.getElementById("hero-sim");
   if (heroCanvas) run(heroCanvas, hero);
   document.querySelectorAll("canvas[data-sim]").forEach((c) => { const s = SIMS[c.dataset.sim]; if (s) run(c, Object.create(s)); });
